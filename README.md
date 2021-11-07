@@ -1,2 +1,3 @@
 react slick
 react 
+firebase
