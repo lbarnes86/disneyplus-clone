@@ -1,5 +1,7 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import styled from "styled-components";
+import MenuIcon from '@mui/icons-material/Menu';
+import CloseIcon from '@mui/icons-material/Close';
 import { useDispatch, useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
 import { auth, provider } from "../firebase";
@@ -55,7 +57,7 @@ const Header = (props) => {
       })
     );
   };
-
+  const [burgerStatus, setBurgerStatus] = useState(false);
   return (
     <Nav>
       <Logo>
@@ -92,12 +94,48 @@ const Header = (props) => {
               <span>SERIES</span>
             </a>
           </NavMenu>
+          
+          <BurgerNav show={burgerStatus}>
+                <CloseWrapper>
+                <CustomClose onClick={() => setBurgerStatus(false)}/>
+                </CloseWrapper>
+
+
+                <li><a href="/">
+              <img src="/images/home-icon.svg" alt="HOME" />
+              HOME
+            </a></li>
+                <li> <a>
+              <img src="/images/search-icon.svg" alt="SEARCH" />
+              SEARCH
+            </a></li>
+                <li><a>
+              <img src="/images/watchlist-icon.svg" alt="WATCHLIST" />
+              WATCHLIST
+            </a></li>
+                <li><a>
+              <img src="/images/original-icon.svg" alt="ORIGINALS" />
+              ORIGINALS
+            </a></li>
+                <li><a>
+              <img src="/images/movie-icon.svg" alt="MOVIES" />
+              MOVIES
+            </a></li>
+                <li><a>
+              <img src="/images/series-icon.svg" alt="SERIES" />
+              SERIES
+            </a></li>
+                
+
+            </BurgerNav>
+
           <SignOut>
             <UserImg src={userPhoto} alt={userName} />
             <DropDown>
               <span onClick={handleAuth}>Sign out</span>
             </DropDown>
           </SignOut>
+          <CustomMenu onClick={() => setBurgerStatus(true)}/>
         </>
       )}
     </Nav>
@@ -186,9 +224,16 @@ const NavMenu = styled.div`
       }
     }
   }
-  /* @media (max-width: 768px) {
+  
+  @media (max-width: 860px) {
     display: none;
-  } */
+
+    
+  }
+
+
+
+
 `;
 
 const Login = styled.a`
@@ -208,6 +253,9 @@ const Login = styled.a`
 
 const UserImg = styled.img`
   height: 100%;
+
+  
+
 `;
 
 const DropDown = styled.div`
@@ -245,5 +293,55 @@ const SignOut = styled.div`
     }
   }
 `;
+
+const CustomMenu = styled(MenuIcon)`
+    cursor: pointer;
+
+`
+
+const BurgerNav = styled.div`
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    right: 0;
+    background-color: #040714;
+    width: 300px;
+    z-index: 16;
+    list-style: none;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    text-align: start;
+    transform: ${props => props.show ? 'translateX(0)': 'translateX(100%)'};
+    transition: transform 0.2s;
+    li {
+        padding: 15px 0;
+        border-bottom: 1px solid rgba(0, 0, 0, .2);
+
+        a {
+            font-weight: 300;
+            text-decoration: none;
+            color: white
+        }
+      
+        img {
+          height: 20px;
+          min-width: 20px;
+          width: 20px;
+        }
+    }
+   
+`
+
+const CustomClose = styled(CloseIcon)`
+    cursor: pointer;
+`
+
+const CloseWrapper = styled.div`
+    display: flex;
+    justify-content: flex-end;
+
+`
+
 
 export default Header;
